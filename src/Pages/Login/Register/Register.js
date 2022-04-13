@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import auth from '../../../firebase.init';
 
 const Register = () => {
 
@@ -8,13 +10,30 @@ const Register = () => {
     const passwordRef = useRef('')
     const confrimPasswordRef = useRef('')
 
+    const navigate = useNavigate()
+
+    const [
+        createUserWithEmailAndPassword,
+        user,
+        loading,
+        error,
+    ] = useCreateUserWithEmailAndPassword(auth);
+
     const submitForm = (e) => {
         e.preventDefault();
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
         const confrimPassword = confrimPasswordRef.current.value;
-        console.log(email, password, confrimPassword)
 
+        if (password !== confrimPassword) {
+
+            alert("Password didnt match")
+            return;
+
+        } else {
+            createUserWithEmailAndPassword(email, password)
+            navigate('/home')
+        }
     }
 
     return (

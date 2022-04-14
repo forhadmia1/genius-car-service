@@ -1,14 +1,17 @@
-import React, { useRef } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import React, { useRef, useState } from 'react';
+import { Button, Form, Spinner } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import auth from '../../../firebase.init';
+import SocialLogin from '../Login/SocialLogin/SocialLogin';
 
 const Register = () => {
 
     const emailRef = useRef('');
     const passwordRef = useRef('')
     const confrimPasswordRef = useRef('')
+
+    const [agree, setAgree] = useState(false);
 
     const navigate = useNavigate()
 
@@ -17,7 +20,11 @@ const Register = () => {
         user,
         loading,
         error,
-    ] = useCreateUserWithEmailAndPassword(auth);
+    ] = useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
+
+    if (loading) {
+        return <Spinner animation="border" variant="danger" />;
+    }
 
     const submitForm = (e) => {
         e.preventDefault();
@@ -35,6 +42,10 @@ const Register = () => {
             navigate('/home')
         }
     }
+    let errormessage;
+    if (error) {
+        errormessage = <p className='test-center text-danger'>{error.message}</p>
+    }
 
     return (
         <div className='py-4'>
@@ -49,18 +60,22 @@ const Register = () => {
                         <Form.Label>Password</Form.Label>
                         <Form.Control ref={passwordRef} type="password" placeholder="Password" required />
                     </Form.Group>
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Group className="mb-3" controlId="formBasicconfrimPassword">
                         <Form.Label>Confrim-Password</Form.Label>
                         <Form.Control ref={confrimPasswordRef} type="password" placeholder="confrim Password" required />
                     </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                        <Form.Check onChange={() => { setAgree(!agree) }} type="checkbox" label="Accepts all terms and condition?" />
+                    </Form.Group>
+                    {errormessage}
                     <p className='text-center'>Already have an account? <Link className='text-danger fw-bold' to='/login'>Log In</Link></p>
                     <div className='d-flex justify-content-center'>
-                        <Button variant="primary" type="submit">
+                        <Button variant="primary" type="submit" disabled={agree ? false : true}>
                             Register
                         </Button>
                     </div>
-
                 </Form>
+                <SocialLogin />
             </div>
         </div>
     );

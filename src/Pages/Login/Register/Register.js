@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import auth from '../../../firebase.init';
 import SocialLogin from '../Login/SocialLogin/SocialLogin';
+import PageTitle from '../../PageTitle/PageTitle';
 
 const Register = () => {
 
@@ -49,6 +50,7 @@ const Register = () => {
 
     return (
         <div className='py-4'>
+            <PageTitle title={'Register'} />
             <h2 className='text-center'>Please Register </h2>
             <div className='w-25 mx-auto text-start'>
                 <Form onSubmit={submitForm}>

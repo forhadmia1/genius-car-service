@@ -5,16 +5,19 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { HelmetProvider } from 'react-helmet-async';
 
 const rootElement = document.getElementById('root');
 const root = ReactDOM.createRoot(rootElement);
 
 root.render(
-  <BrowserRouter>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </BrowserRouter>
+  <HelmetProvider>
+    <BrowserRouter>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </BrowserRouter>
+  </HelmetProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

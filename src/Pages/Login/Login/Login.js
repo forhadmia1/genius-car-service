@@ -6,6 +6,8 @@ import auth from '../../../firebase.init';
 import SocialLogin from './SocialLogin/SocialLogin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PageTitle from '../../PageTitle/PageTitle';
+import axios from 'axios';
 
 const Login = () => {
     const emailRef = useRef('');
@@ -24,11 +26,13 @@ const Login = () => {
 
     const [sendPasswordResetEmail, sending, error1] = useSendPasswordResetEmail(auth);
 
-    const submitForm = (e) => {
+    const submitForm = async (e) => {
         e.preventDefault();
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
-        signInWithEmailAndPassword(email, password)
+        await signInWithEmailAndPassword(email, password)
+        const token = await axios.post('http://localhost:5000/login', { email })
+        localStorage.setItem('accesstoken', token.data.token)
     }
 
     if (user) {
@@ -51,6 +55,7 @@ const Login = () => {
 
     return (
         <div className='py-4'>
+            <PageTitle title={'LogIn'} />
             <h2 className='text-center'>Please LogIn</h2>
             <div className='w-25 mx-auto text-start'>
                 <Form onSubmit={submitForm}>

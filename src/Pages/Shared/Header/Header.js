@@ -33,7 +33,9 @@ const Header = () => {
                         </Nav>
                         <Nav>
                             <Nav.Link as={Link} to="/about">About</Nav.Link>
-                            {user ? <button className='btn btn-link text-decoration-none text-secondary' onClick={handleSignout}>SignOut</button> :
+                            {user ? <>
+                                <Nav.Link as={Link} to="/orders">Order</Nav.Link>
+                                <button className='btn btn-link text-decoration-none text-secondary' onClick={handleSignout}>SignOut</button> </> :
                                 <Nav.Link as={Link} to="/login">LogIn</Nav.Link>}
                         </Nav>
                     </Navbar.Collapse>

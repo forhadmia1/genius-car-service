@@ -20,7 +20,7 @@ const Checkout = () => {
             address: e.target.address.value,
             service: e.target.Service.value,
         }
-        axios.post('http://localhost:5000/order', order)
+        axios.post('https://sheltered-wildwood-79040.herokuapp.com/order', order)
             .then(function (response) {
                 if (response.data.insertedId) {
                     toast('order is successfully placed')

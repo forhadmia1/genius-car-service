@@ -4,7 +4,7 @@ const useSingleService = (serviceId) => {
 
     const [singleService, setSingleService] = useState({})
     useEffect(() => {
-        fetch(`http://localhost:5000/service/${serviceId}`)
+        fetch(`https://sheltered-wildwood-79040.herokuapp.com/service/${serviceId}`)
             .then(res => res.json())
             .then(data => setSingleService(data))
     }, [serviceId])

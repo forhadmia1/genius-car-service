@@ -2,10 +2,14 @@ import React from 'react';
 import { Button, Spinner } from 'react-bootstrap';
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import auth from '../../../../firebase.init';
+import useToken from '../../../../hooks/useToken';
 
 const SocialLogin = () => {
 
     const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+
+    const [token] = useToken(user)
+
     if (loading) {
         return <Spinner animation="border" variant="danger" />;
     }
